@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Tags</h1>
+    {% for n in vars %}
+    {% if n|divisibleby:2 %}
+    <p>{{n}} is even</p>
+    {% else %}
+    <p>{{n}} is odd</p>
+    {% endif %}
+    {% endfor %}
+
+    {% if is_logged_in %}
+    <p>Welcome User</p>
+    {% else %}
+    <p>Please login</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% load custom_filter %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Custom Filter</h1>
+    <p>{{text|reverse_string}}</p>
+
+    <h1>Template Filters</h1>
+    <h2>Text Filter</h2>
+    <h3>Original Text</h3>
+    {{text}}
+    <h3>Applied Filters</h3>
+    <p><strong>Upper: </strong>{{text|upper}}</p>
+    <p><strong>Lower: </strong>{{text|lower}}</p>
+    <p><strong>Capfirst: </strong>{{text|capfirst}}</p>
+    <p><strong>Length: </strong>{{text|length}}</p>
+    <h2>List Filter</h2>
+    <h3>Original Text</h3>
+    {{items}}
+    <h3>Applied Filters</h3>
+    <p><strong>first: </strong>{{items|first}}</p>
+    <p><strong>join: </strong>{{items|join:", "}}</p>
+    <h2>Number Filter</h2>
+    <h3>Original Text</h3>
+    {{price}}
+    <h3>Applied Filters</h3>
+    <p><strong>floatformat: </strong>{{price|floatformat}}</p>
+    <h2>Date Filter</h2>
+    <h3>Original Text</h3>
+    {{date}}
+    <h3>Applied Filters</h3>
+    <p><strong>date: </strong>{{date|date:"F j, Y"}}</p>
+    <h2>HTML content filter</h2>
+    <h3>Original Text</h3>
+    {{html_content}}
+    <h3>Applied Filters</h3>
+    <p><strong>safe: </strong>{{html_content|safe}}</p>
+</body>
+</html>

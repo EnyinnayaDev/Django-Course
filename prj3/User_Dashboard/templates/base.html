@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> {% block title %}Document{% endblock title %} </title>
+</head>
+<body>
+    <header>
+        <nav>
+            <h2>MyDashboard</h2>
+
+            <ul>
+                <li><a href="{% url "dashboard" %}">Dashboard</a></li>
+                <li><a href="{% url "profile" %}">Profiles</a></li>
+                <li><a href="{% url "settings" %}">Settings</a></li>
+                <li><a href="{% url "help" %}">Help</a></li>
+            </ul>
+        </nav>
+    </header>
+    <hr>
+    <main>
+        <h1>{{page_name}}</h1>
+        {% block content %}{% endblock content %}
+    </main>
+    <hr>
+
+    <footer>
+        <p>
+            Logged in as <strong>{{username}}</strong>
+            {% if role == "admin" %}
+            | Admin Panel
+            {% else %}
+            | User
+            {% endif %}
+        </p>
+        <p>&copy; {{current_year}} MyDashboard</p>
+    </footer>
+</body>
+</html>

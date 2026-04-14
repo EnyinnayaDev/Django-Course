@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> {% block title %}Default title{% endblock %} </title>
+    <link rel="stylesheet" href="{% static "css/proj_css.css" %}">
+</head>
+<style>
+    #header{
+        width: 900px;
+        height: 300px;
+        background-color: rosybrown;
+    }
+    #nav{
+        width: 900px;
+        height: 100px;
+        background-color: antiquewhite;
+    }
+    #main{
+        width: 900px;
+        height: 400px;
+        background-color: darkblue;
+    }
+    #footer{
+        width: 900px;
+        height: 300px;
+        background-color: firebrick;
+        position: relative;
+    }
+</style>
+<body>
+    <div id="header">
+        <h1>Header section</h1>
+    </div>
+
+    {% include "user/nav.html" %}
+    
+    <div id="main">
+        <h1>{% block main_content %}
+        Main section
+        {% endblock %}</h1>    
+    </div>
+    <img src="{% static "user/images/1.jpg" %}" alt="">
+
+    {% include "user/footer.html" %}
+</body>
+</html>
