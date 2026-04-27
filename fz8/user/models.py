@@ -33,3 +33,15 @@ from datetime import timedelta
 #class Tag(models.Model):
     #name = models.CharField(max_length=50)
     
+class Student(models.Model):
+   first_name = models.CharField(max_length=100)
+   last_name = models.CharField(max_length=100)
+   date_of_birth = models.DateField()
+   grade = models.CharField(max_length=10)
+   is_active = models.BooleanField(default=True)
+   
+   def __str__(self):
+      return f"{self.first_name}"
+   
+   def full_name(self):
+      return f"{self.first_name} {self.last_name}"
