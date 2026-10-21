@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System</title>
+</head>
+<body>
+    <h1>Registered Students</h1>
+    <a href="{% url 'student_create' %}">Register New Student</a>
+
+    {% for student in students %}
+        <p>{{ student.first_name }} {{ student.last_name }} - {{ student.email }} - {{student.age}} - {{student.level}}    <a href="{% url "student_update" student.id %}">Update</a></p>
+    {% empty %}
+        <p> No students registered yet.</p>
+    {% endfor %}
+</body>
+</html>
