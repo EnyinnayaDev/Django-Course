@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Student
 from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 
 # Create your views here.
 def student_list(request):
