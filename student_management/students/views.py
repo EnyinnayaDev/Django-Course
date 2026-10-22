@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Student
 
 # Create your views here.
@@ -8,7 +8,7 @@ def student_list(request):
     return render(request, 'students/student_list.html', {'students': students})
 
 
-
+#CREATE
 def student_create(request):
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
@@ -16,23 +16,33 @@ def student_create(request):
         email = request.POST.get('email')
         age = request.POST.get('age')
         level = request.POST.get('level')
-
-        student = Student(
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
-            age=age,
-            level=level
-        )
-        student.save()
-        return redirect('student_list')
-    else:
-        pass
+        
+        if Student.objects.filter(email=email).exists():
+            error_message = "A student with this email already exists."
+            student = Student(
+                            first_name=first_name,
+                            last_name=last_name,
+                            email=email,
+                            age=age,
+                            level=level
+                        )
+            return render(request, 'students/student_form.html', {'error_message': error_message, 'student': student})
+        else:
+            student = Student(
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                age=age,
+                level=level
+            )
+            student.save()
+            return redirect('student_list')
 
     return render(request, 'students/student_form.html')
 
+#UPDATE
 def student_update(request, student_id):
-    student = Student.objects.get(id=student_id)
+    student = get_object_or_404(Student, id=student_id)
 
     if request.method == 'POST':
         student.first_name = request.POST.get('first_name')
@@ -45,3 +55,11 @@ def student_update(request, student_id):
         return redirect('student_list')
 
     return render(request, 'students/student_form.html', {'student': student})
+
+#DELETE
+def student_delete(request, student_id):
+    student = get_object_or_404(Student, id=student_id)
+    if request.method == 'POST':
+        student.delete()
+        return redirect('student_list')
+    return render(request, 'students/student_confirm_delete.html', {'student': student})
