@@ -9,7 +9,9 @@
     <h1>Contact Us</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{form.name.label_tag}} {{form.name}} {{form.name.errors}}<br>
+        {{form.email.label_tag}} {{form.email}} {{form.email.errors}}<br>
+        {{form.message.label_tag}} {{form.message}} {{form.message.errors}}<br>
         <button type="submit">Send Message</button>
     </form>
 </body>
