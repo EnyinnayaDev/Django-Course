@@ -17,24 +17,29 @@ def student_create(request):
         age = request.POST.get('age')
         level = request.POST.get('level')
         
+        student = Student(
+                        first_name=first_name,
+                        last_name=last_name,
+                        email=email,
+                        age=age,
+                        level=level
+                    )
+        
+        try:
+            age = int(age)
+        except ValueError:
+            error_message = "Age must be a number."
+            return render(request, 'students/student_form.html', {'error_message': error_message, 'student': student})
+        
+        if age < 1 or age > 120:
+            error_message = "Age must be between 1 and 120."
+            return render(request, 'students/student_form.html', {'error_message': error_message, 'student': student})
+        student.age = age
+        
         if Student.objects.filter(email=email).exists():
             error_message = "A student with this email already exists."
-            student = Student(
-                            first_name=first_name,
-                            last_name=last_name,
-                            email=email,
-                            age=age,
-                            level=level
-                        )
             return render(request, 'students/student_form.html', {'error_message': error_message, 'student': student})
         else:
-            student = Student(
-                first_name=first_name,
-                last_name=last_name,
-                email=email,
-                age=age,
-                level=level
-            )
             student.save()
             return redirect('student_list')
 
