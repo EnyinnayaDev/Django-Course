@@ -14,10 +14,24 @@ class StudentForm(forms.ModelForm):
         }
         widgets = {
             'first_name': forms.TextInput(attrs={
-                'placeholder': 'Enter your first name.'
+                'placeholder': 'Enter your first name.',
+                'class': 'form-input'
+            }),
+            'email': forms.EmailInput(attrs={
+                'placeholder': 'Enter your email address.',
+                'class': 'form-input'
             })
         }
         
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field in self.fields.values():
+            if 'class' in field.widget.attrs:
+                field.widget.attrs['class'] += ' form-input'
+            else:
+                field.widget.attrs['class'] = 'form-input'
+
     def clean_age(self):
         age = self.cleaned_data["age"]
         if age < 1 or age > 120:
