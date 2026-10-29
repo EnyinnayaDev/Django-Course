@@ -10,7 +10,7 @@
     <a href="{% url 'student_create' %}">Register New Student</a>
 
     {% for student in students %}
-        <p>{{ student.first_name }} {{ student.last_name }} - {{ student.email }} - {{student.age}} - {{student.level}}    <a href="{% url "student_update" student.id %}">Update</a>  <a href="{% url "student_delete" student.id %}">Delete</a></p>
+        <p>{{ student.first_name }} {{ student.last_name }} - {{ student.email }} - {{student.age}} - {{student.level}}    <a href="{% url "student_update" student.id %}">Update</a> <a href="{% url "student_update_model_form" student.id %}">Update M</a> <a href="{% url "student_delete" student.id %}">Delete</a></p>
     {% empty %}
         <p> No students registered yet.</p>
     {% endfor %}

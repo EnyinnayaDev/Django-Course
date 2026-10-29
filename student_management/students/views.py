@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Student
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from .forms import StudentForm
 
 # Create your views here.
 def student_list(request):
@@ -108,3 +109,25 @@ def student_delete(request, student_id):
         student.delete()
         return redirect('student_list')
     return render(request, 'students/student_confirm_delete.html', {'student': student})
+
+
+
+#Model Forms
+def student_create_model_form(request):
+    form = StudentForm()
+    if request.method == 'POST':
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('student_list')
+    return render(request, 'students/student_model_form.html', {'form': form})
+
+def student_update_model_form(request, student_id):
+    student = get_object_or_404(Student, id=student_id)
+    form = StudentForm(instance=student)
+    if request.method == 'POST':
+        form = StudentForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            return redirect('student_list')
+    return render(request, 'students/student_model_form.html', {'form': form})
