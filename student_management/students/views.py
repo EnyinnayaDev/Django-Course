@@ -130,4 +130,4 @@ def student_update_model_form(request, student_id):
         if form.is_valid():
             form.save()
             return redirect('student_list')
-    return render(request, 'students/student_model_form.html', {'form': form})
+    return render(request, 'students/student_model_form.html', {'form': form, "student": student})

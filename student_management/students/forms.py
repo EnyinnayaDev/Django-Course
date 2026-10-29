@@ -5,6 +5,18 @@ class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
         fields = ['first_name', 'last_name', 'email', 'age', 'level']
+        labels = {
+            'first_name': "Student's First Name",
+            'email': "Student's Email Address"
+        }
+        help_texts = {
+            'level': "Select your current academic level."
+        }
+        widgets = {
+            'first_name': forms.TextInput(attrs={
+                'placeholder': 'Enter your first name.'
+            })
+        }
         
     def clean_age(self):
         age = self.cleaned_data["age"]
