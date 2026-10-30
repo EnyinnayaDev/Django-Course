@@ -7,5 +7,6 @@ urlpatterns = [
     path("students/<int:student_id>/update/", student_update, name="student_update"),
     path("students/<int:student_id>/delete/", student_delete, name="student_delete"),
     path("students/<int:student_id>/model-form/update/", student_update_model_form, name="student_update_model_form"),
-    path("students/model-form/create/", student_create_model_form, name="student_create_model_form")
+    path("students/model-form/create/", student_create_model_form, name="student_create_model_form"),
+    path("login/", user_login, name="login"),
 ]

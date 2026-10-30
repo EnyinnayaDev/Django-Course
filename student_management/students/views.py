@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Student
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
 from .forms import StudentForm
 
 # Create your views here.
@@ -131,3 +133,23 @@ def student_update_model_form(request, student_id):
             form.save()
             return redirect('student_list')
     return render(request, 'students/student_model_form.html', {'form': form, "student": student})
+
+# Login function
+def user_login(request):
+    if request.method == 'POST':
+        usernames = request.POST.get('username')
+        passwords = request.POST.get('password')
+        print("Username:", usernames)
+        print("Password received:", bool(passwords))  # Check if password is received
+
+        user = authenticate(
+            username=usernames,
+            password=passwords
+        )
+        print("Authenticated: ", user)
+        if user is not None:
+            login(request, user)
+            return redirect('student_list')
+        else:
+            messages.error(request, 'Invalid username or password')
+    return render(request, 'registration/login.html')
