@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
 from .models import Student
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import StudentForm
 
@@ -153,3 +154,11 @@ def user_login(request):
         else:
             messages.error(request, 'Invalid username or password')
     return render(request, 'registration/login.html')
+
+# Logout function
+def user_logout(request):
+    logout(request)
+    return redirect('login')
+
+def is_authenticated(request):
+    return HttpResponse(request.user.is_authenticated)

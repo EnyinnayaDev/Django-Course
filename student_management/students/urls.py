@@ -9,4 +9,6 @@ urlpatterns = [
     path("students/<int:student_id>/model-form/update/", student_update_model_form, name="student_update_model_form"),
     path("students/model-form/create/", student_create_model_form, name="student_create_model_form"),
     path("login/", user_login, name="login"),
+    path("logout/", user_logout, name="logout"),
+    path("is_authenticated/", is_authenticated, name="is_authenticated"),
 ]
