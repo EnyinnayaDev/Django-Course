@@ -11,4 +11,5 @@ urlpatterns = [
     path("login/", user_login, name="login"),
     path("logout/", user_logout, name="logout"),
     path("is_authenticated/", is_authenticated, name="is_authenticated"),
+    path("user_register/", user_register, name="user_register"),
 ]
