@@ -5,10 +5,13 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.contrib import messages
 from .forms import StudentForm
 
 # Create your views here.
+@login_required
 def student_list(request):
     students = Student.objects.all()
 
@@ -16,6 +19,8 @@ def student_list(request):
 
 
 #CREATE
+@login_required
+@permission_required('students.add_student', raise_exception=True)
 def student_create(request):
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
@@ -91,6 +96,8 @@ def student_create(request):
     return render(request, 'students/student_form.html')
 
 #UPDATE
+@login_required
+@permission_required('students.change_student', raise_exception=True)
 def student_update(request, student_id):
     student = get_object_or_404(Student, id=student_id)
 
@@ -107,6 +114,8 @@ def student_update(request, student_id):
     return render(request, 'students/student_form.html', {'student': student})
 
 #DELETE
+@login_required
+@permission_required('students.delete_student', raise_exception=True)
 def student_delete(request, student_id):
     student = get_object_or_404(Student, id=student_id)
     if request.method == 'POST':
@@ -117,6 +126,8 @@ def student_delete(request, student_id):
 
 
 #Model Forms
+@login_required
+@permission_required('students.add_student', raise_exception=True)
 def student_create_model_form(request):
     form = StudentForm()
     if request.method == 'POST':
@@ -126,6 +137,8 @@ def student_create_model_form(request):
             return redirect('student_list')
     return render(request, 'students/student_model_form.html', {'form': form})
 
+@login_required
+@permission_required('students.change_student', raise_exception=True)
 def student_update_model_form(request, student_id):
     student = get_object_or_404(Student, id=student_id)
     form = StudentForm(instance=student)
@@ -141,9 +154,7 @@ def user_login(request):
     if request.method == 'POST':
         usernames = request.POST.get('username')
         passwords = request.POST.get('password')
-        print("Username:", usernames)
-        print("Password received:", bool(passwords))  # Check if password is received
-
+          
         user = authenticate(
             username=usernames,
             password=passwords
@@ -151,15 +162,22 @@ def user_login(request):
         print("Authenticated: ", user)
         if user is not None:
             login(request, user)
-            return redirect('student_list')
+            page = request.GET.get('next')
+            if page and url_has_allowed_host_and_scheme(page, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
+                return redirect(page)
+            else:
+                return redirect('student_list')
         else:
             messages.error(request, 'Invalid username or password')
     return render(request, 'registration/login.html')
 
 # Logout function
+@login_required
 def user_logout(request):
-    logout(request)
-    return redirect('login')
+    if request.method == 'POST':
+        logout(request)
+        return redirect('login')
+    return render(request, 'registration/logout.html')
 
 def is_authenticated(request):
     return HttpResponse(request.user.is_authenticated)
